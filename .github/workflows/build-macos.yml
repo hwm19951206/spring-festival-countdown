@@ -7,11 +7,9 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -19,10 +17,11 @@ jobs:
         run: |
           pip install pyinstaller lunardate
 
-      - name: Build .app
+      - name: Build Universal .app
         run: |
           pyinstaller --onefile --windowed \
             --name "春节倒计时" \
+            --arch=universal \
             spring_festival_countdown.py
 
       - name: Upload Artifact
