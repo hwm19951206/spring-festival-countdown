@@ -7,15 +7,18 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
         run: |
-          pip install pyinstaller lunardate
+          pip install --upgrade pyinstaller==5.10.0 lunardate
+          pip list | grep -E "(pyinstaller|lunardate)"
 
       - name: Build Universal .app
         run: |
