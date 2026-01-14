@@ -17,14 +17,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pyinstaller==5.10.0 lunardate
+          pip install --upgrade pyinstaller lunardate
           pip list | grep -E "(pyinstaller|lunardate)"
 
-      - name: Build Universal .app
+      - name: Build for Apple Silicon (arm64)
         run: |
           pyinstaller --onefile --windowed \
             --name "春节倒计时" \
-            --arch=universal \
+            --target-architecture arm64 \
             spring_festival_countdown.py
 
       - name: Upload Artifact
