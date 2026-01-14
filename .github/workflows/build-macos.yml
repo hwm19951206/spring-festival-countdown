@@ -1,0 +1,32 @@
+name: Build for macOS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller lunardate
+
+      - name: Build .app
+        run: |
+          pyinstaller --onefile --windowed \
+            --name "春节倒计时" \
+            spring_festival_countdown.py
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpringFestival-macOS
+          path: dist/
