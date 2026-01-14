@@ -1,4 +1,4 @@
-name: Build for macOS
+name: Build for macOS (Intel only)
 
 on:
   workflow_dispatch:
@@ -7,28 +7,17 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pyinstaller lunardate
-          pip list | grep -E "(pyinstaller|lunardate)"
-
-      - name: Build for Apple Silicon (arm64)
-        run: |
+      - run: pip install pyinstaller lunardate
+      - run: |
           pyinstaller --onefile --windowed \
             --name "春节倒计时" \
-            --target-architecture arm64 \
+            --target-architecture x86_64 \
             spring_festival_countdown.py
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: SpringFestival-macOS
+          name: SpringFestival-macOS-Intel
           path: dist/
